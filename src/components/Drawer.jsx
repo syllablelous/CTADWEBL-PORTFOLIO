@@ -132,12 +132,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const navItems = [
-  { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-  { text: 'Users', icon: <PeopleIcon />, path: '/dashboard/users' },
-  { text: 'Reports', icon: <ReportIcon />, path: '/dashboard/reports' },
-  { text: 'Articles', icon: <ArticleIcon />, path: '/dashboard/articles' },
-];
+const getNavItems = (userType) => {
+  const allItems = [
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard', roles: ['admin', 'viewer'] },
+    { text: 'Users', icon: <PeopleIcon />, path: '/dashboard/users', roles: ['admin'] },
+    { text: 'Reports', icon: <ReportIcon />, path: '/dashboard/reports', roles: ['admin'] },
+    { text: 'Articles', icon: <ArticleIcon />, path: '/dashboard/articles', roles: ['admin', 'editor'] },
+  ];
+
+  return allItems.filter(item => item.roles.includes(userType));
+};
 
 const getPageTitle = (pathname) => {
   switch (pathname) {
@@ -154,11 +158,13 @@ const getPageTitle = (pathname) => {
   }
 };
 
-export default function MiniDrawer({ children }) {
+const MiniDrawer = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const userType = localStorage.getItem('type') || 'viewer';
+  const navItems = getNavItems(userType);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -267,4 +273,6 @@ export default function MiniDrawer({ children }) {
       </Box>
     </Box>
   );
-}
+};
+
+export default MiniDrawer;

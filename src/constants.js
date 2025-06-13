@@ -1,5 +1,3 @@
-const constants = {
-  HOST: import.meta.env.VITE_LOCAL_HOST,
-};
+const constants = {};
 
 export default constants;

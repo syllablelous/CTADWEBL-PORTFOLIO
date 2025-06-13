@@ -1,24 +1,39 @@
 nav {
-  background-color: rgb(24, 27, 74);
+  background: rgb(24, 27, 74);
   margin: 0;
-  padding: 0.2rem;
+  padding: 0.8rem 2rem;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 7%;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 1000;
   box-sizing: border-box;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
 }
 
 .right-side {
   display: flex;
   align-items: center;
-  margin-right: 20px;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .right-side ul {
@@ -26,15 +41,139 @@ nav {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .right-side li {
-  display: inline;
-  padding: 0px 8px;
-  height: 100%;
+  position: relative;
 }
 
-.right-side li:hover {
-  background-color: rgb(43, 50, 150);
+.right-side li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.right-side li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.right-side li a.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* Custom Button Styles */
+.right-side .custom-button {
+  background: #0984e3;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.right-side .custom-button:hover {
+  background: #0873c4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2);
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    padding: 0.8rem 1rem;
+    background: rgb(24, 27, 74);
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .right-side {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: rgb(24, 27, 74);
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .right-side.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .right-side ul {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .right-side li {
+    width: 100%;
+  }
+
+  .right-side li a {
+    display: block;
+    padding: 0.8rem;
+    border-radius: 10px;
+  }
+
+  .right-side .custom-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Animation for mobile menu */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
 }

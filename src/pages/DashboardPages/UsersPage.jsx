@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { createUser, fetchUsers, updateUser } from '../../services/UserService';
+import { createUser, fetchUsers, updateUser, deleteUser } from '../../services/UserService';
 import { Button, FormControl, InputLabel, MenuItem, Modal, Select, Switch, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TextField from '@mui/material/TextField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 
 const modalStyle = {
@@ -59,6 +62,7 @@ const UsersPage = () => {
     password: '',
     address: '',
     isActive: true,
+    type: '',
   });
 
   const loadUsers = async () => {
@@ -90,6 +94,7 @@ const UsersPage = () => {
       password: '',
       address: '',
       isActive: true,
+      type: '',
     });
     setOpen(true);
   };
@@ -110,6 +115,7 @@ const UsersPage = () => {
         password: '',
         address: '',
         isActive: true,
+        type: '',
       });
     }, 300);
   };
@@ -152,39 +158,127 @@ const UsersPage = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        await deleteUser(id);
+        loadUsers();
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
+    }
+  };
+
   const columns1 = [
     {
-      field: 'name',
-      headerName: 'Name',
-      flex: 1,
-
-      valueGetter: (value, params) => `${params.firstName || ''} ${params.lastName || ''}`,
-    },
-    { field: 'age', headerName: 'Age', flex: 1, sortable: true },
-    { field: 'gender', headerName: 'Gender', flex: 1, sortable: true },
-    { field: 'email', headerName: 'Email', flex: 1 },
-    { field: 'type', headerName: 'Type', flex: 1, sortable: true },
-    { field: 'contactNumber', headerName: 'Contact', flex: 1 },
-    { field: 'username', headerName: 'Username', flex: 1 },
-    { field: 'address', headerName: 'Address', flex: 1 },
-    {
-      field: 'actions',
-      headerName: 'Actions',
+      field: 'username',
+      headerName: 'Username',
       flex: 1,
       renderCell: (params) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            variant='contained'
-            size='small'
-            onClick={() => handleEdit(params.row._id)}
-          >
-            Edit
-          </Button>
+        <Box sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          {params.value}
+        </Box>
+      ),
+    },
+    {
+      field: 'age',
+      headerName: 'Age',
+      width: 80,
+      sortable: true,
+      renderCell: (params) => (
+        <Box sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          {params.value}
+        </Box>
+      ),
+    },
+    { field: 'gender', headerName: 'Gender', flex: 1, sortable: true },
+    { field: 'email', headerName: 'Email', flex: 1 },
+    {
+      field: 'type',
+      headerName: 'Type',
+      width: 100,
+      sortable: true,
+      renderCell: (params) => (
+        <Box sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          {params.value}
+        </Box>
+      ),
+    },
+    { field: 'contactNumber', headerName: 'Contact', flex: 1 },
+    { field: 'address', headerName: 'Address', flex: 1 },
+    {
+      field: 'isActive',
+      headerName: 'Status',
+      width: 100,
+      align: 'center',
+      renderCell: (params) => (
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          '& .MuiSwitch-root': {
+            margin: '0 auto'
+          }
+        }}>
           <Switch
             checked={params.row.isActive}
             onChange={() => handleToggleActive(params.row._id, params.row.isActive)}
             color='primary'
           />
+        </Box>
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      align: 'center',
+      renderCell: (params) => (
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 1,
+          width: '100%',
+          '& .MuiIconButton-root': {
+            margin: '0 auto'
+          }
+        }}>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => handleEdit(params.row._id)}
+            sx={{
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.08)',
+              },
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color="error"
+            size="small"
+            onClick={() => handleDelete(params.row._id)}
+            sx={{
+              '&:hover': {
+                backgroundColor: 'rgba(211, 47, 47, 0.08)',
+              },
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ),
     },
@@ -581,6 +675,54 @@ const UsersPage = () => {
                   }}
                 />
               </Box>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                mb: 2,
+                '& .MuiSvgIcon-root': {
+                  color: 'primary.main',
+                  transition: 'all 0.3s ease',
+                },
+                '&:hover .MuiSvgIcon-root': {
+                  transform: 'scale(1.1)',
+                },
+              }}>
+                <AccountCircle sx={{ mr: 1, my: 0.5 }} />
+                <FormControl fullWidth variant='standard'>
+                  <InputLabel
+                    id='account-type-select-label'
+                    sx={{
+                      color: 'text.secondary',
+                    }}
+                  >
+                    Account Type
+                  </InputLabel>
+                  <Select
+                    IconComponent={ExpandMoreIcon}
+                    labelId='account-type-select-label'
+                    id='account-type-select'
+                    value={newUser.type}
+                    onChange={(e) =>
+                      setNewUser({ ...newUser, type: e.target.value })
+                    }
+                    sx={{
+                      '& .MuiInput-underline:before': {
+                        borderBottomColor: 'primary.light',
+                      },
+                      '& .MuiInput-underline:hover:before': {
+                        borderBottomColor: 'primary.main',
+                      },
+                      '& .MuiSelect-icon': {
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    <MenuItem value='admin'>Admin</MenuItem>
+                    <MenuItem value='viewer'>Viewer</MenuItem>
+                    <MenuItem value='editor'>Editor</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
               <Stack direction="row" spacing={2} sx={{ mt: 2, justifyContent: 'center' }}>
                 <Button
                   variant='outlined'
@@ -627,7 +769,25 @@ const UsersPage = () => {
         </Box>
       </Modal>
 
-      <Box sx={{ height: 500, width: '100%', mb: 5 }}>
+      <Box sx={{
+        height: 500,
+        width: '100%',
+        mb: 5,
+        overflowX: 'auto',
+        '& .MuiDataGrid-root': {
+          minWidth: 1200,
+        },
+        '& .MuiDataGrid-virtualScroller': {
+          overflowX: 'auto',
+        },
+        '& .MuiDataGrid-virtualScrollerContent': {
+          minWidth: '100%',
+        },
+        '& .MuiDataGrid-cell': {
+          whiteSpace: 'normal',
+          lineHeight: 'normal',
+        },
+      }}>
         <DataGrid
           rows={users.map((user) => ({
             id: user._id,
@@ -638,7 +798,7 @@ const UsersPage = () => {
           loading={loading}
           pageSize={10}
           rowsPerPageOptions={[10, 20, 50]}
-          disableSelctionOnClick
+          disableSelectionOnClick
           sx={{
             borderRadius: 2,
             boxShadow: 3,

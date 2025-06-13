@@ -4,7 +4,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import '../styles/Layout.css';
 
-
 const Layout = () => {
   return (
     <div className="layout-wrapper">
@@ -12,9 +11,9 @@ const Layout = () => {
       <div className="layout-container">
         <Outlet />
       </div>
-      <Footer className="footer"/>
+      <Footer className="footer" />
     </div>
   );
-}
+};
 
 export default Layout;

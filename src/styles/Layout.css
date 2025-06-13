@@ -7,9 +7,9 @@
 .layout-container {
   flex: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 70px auto 0;
-  padding: 0 10px;
+  padding: 0 20px;
   box-sizing: border-box;
   align-self: flex-start;
 }
@@ -17,4 +17,3 @@
 .footer {
   margin-top: auto;
 }
-

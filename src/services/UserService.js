@@ -13,4 +13,13 @@ export const updateUser = (id, user) => API.put(`/${id}`, user);
 
 export const deleteUser = (id) => API.delete(`/${id}`);
 
-export const loginUser = (credentials) => API.post("/login", credentials);
+export const loginUser = async (credentials) => {
+  try {
+    const response = await API.post("/login", credentials);
+    console.log('Server login response:', response.data); // Debug log
+    return response;
+  } catch (error) {
+    console.error('Server login error:', error.response?.data); // Debug log
+    throw error;
+  }
+};
