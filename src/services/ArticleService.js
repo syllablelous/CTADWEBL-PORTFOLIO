@@ -1,12 +1,8 @@
-import axios from "axios";
+import API from './api';
 import constants from "../constants";
 
-const API = axios.create({
-  baseURL: `/api/articles`,
-});
-
-export const fetchArticles = () => API.get("/");
-export const fetchArticle = (name) => API.get(`/name/${name}`);
-export const createArticle = (article) => API.post("/", article);
-export const updateArticle = (id, article) => API.put(`/${id}`, article);
-export const deleteArticle = (id) => API.delete(`/${id}`);
+export const fetchArticles = () => API.get("/articles");
+export const fetchArticle = (name) => API.get(`/articles/name/${name}`);
+export const createArticle = (article) => API.post("/articles", article);
+export const updateArticle = (id, article) => API.put(`/articles/${id}`, article);
+export const deleteArticle = (id) => API.delete(`/articles/${id}`);
