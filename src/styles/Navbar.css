@@ -1,0 +1,40 @@
+nav {
+  background-color: rgb(24, 27, 74);
+  margin: 0;
+  padding: 0.2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  gap: 1rem;
+}
+
+.right-side ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+}
+
+.right-side li {
+  display: inline;
+  padding: 0px 8px;
+  height: 100%;
+}
+
+.right-side li:hover {
+  background-color: rgb(43, 50, 150);
+}

@@ -1,0 +1,25 @@
+.notfound-container {
+  background-color: rgb(190, 43, 43);
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.notfound-container h1, .notfound-container p {
+  text-shadow:  
+    0 0 30px #bc387a,
+    0 0 40px #bc387a,
+    0 0 50px #bc387a,
+    0 0 60px #bc387a,
+    0 0 70px #bc387a;
+  font-weight: bold;
+}
+
+.notfound-container h1 {
+  font-size: 5rem;
+}

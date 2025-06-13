@@ -1,0 +1,12 @@
+.reports-container {
+  padding: 20px;
+}
+
+.data-visualizations-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px; 
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
